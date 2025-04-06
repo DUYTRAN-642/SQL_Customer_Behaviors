@@ -7,7 +7,7 @@ Author: Duy Tran
 
 Date: 2025-04 -06
 
-Tools Used: SQL
+Tools Used: Postgre SQL
 
 ## 📌 Background & Overview
 
@@ -37,7 +37,7 @@ A case study obtained from 8 Week SQL Challenge, link: https://8weeksqlchallenge
 **2️⃣ Data Snapshot**
 
 <details>
-<summary>👉🏻 Fact Table: salesr</summary>
+<summary>👉🏻 Fact Table: sales</summary>
 <br>
 
 | customer_id | order_date | product_id |
@@ -72,4 +72,10 @@ A case study obtained from 8 Week SQL Challenge, link: https://8weeksqlchallenge
 | 2          | curry        | 15    |
 | 3          | ramen        | 12    |
 </details>
+
+⚒️ Main Process
+
+**1. What is the total amount each customer spent at the restaurant?**
+
+The purpose of this query is to extract valuable financial data related to customer purchases and product prices, which can be leveraged for various business and marketing decisions
 
