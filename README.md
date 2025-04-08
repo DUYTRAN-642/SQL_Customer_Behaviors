@@ -79,3 +79,13 @@ A case study obtained from 8 Week SQL Challenge, link: https://8weeksqlchallenge
 
 The purpose of this query is to extract valuable financial data related to customer purchases and product prices, which can be leveraged for various business and marketing decisions
 
+```sql
+SELECT
+  	t1.customer_id
+    ,sum(t2.price) as total_amount
+FROM dannys_diner.sales as t1
+left join dannys_diner.menu as t2
+on t1.product_id = t2.product_id
+group by 1
+order by 1;
+```
