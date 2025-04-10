@@ -81,8 +81,8 @@ The purpose of this query is to extract valuable financial data related to custo
 
 ```sql
 SELECT
-  	t1.customer_id
-    ,sum(t2.price) as total_amount
+ t1.customer_id
+ ,sum(t2.price) as total_amount
 FROM dannys_diner.sales as t1
 left join dannys_diner.menu as t2
 on t1.product_id = t2.product_id
