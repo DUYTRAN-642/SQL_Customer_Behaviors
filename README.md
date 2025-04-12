@@ -30,7 +30,7 @@ A case study obtained from 8 Week SQL Challenge, link: https://8weeksqlchallenge
 
 ### 📊 Data Structure & Relationships
 
-**1️⃣ Tables Used:** The restaurant has recorded 3 key datasets includes: `sales`, `menu', `members`
+**1️⃣ Tables Used:** The restaurant has recorded 3 key datasets includes: `sales`, `menu' , `members`
 
 ![image](https://github.com/user-attachments/assets/e133b7ab-2334-4cfb-acbb-fa5f42d0677f)
 
@@ -96,3 +96,21 @@ order by 1;
 | B           | 74           |
 | C           | 36           |
 
+**2. How many days has each customer visited the restaurant?**
+
+The result can be queried from table of `sales`. Because one customer can have more than 1 order per day, the  syntax ` count distinct` should be deployed to find number of days each csutomer visited the restaurant.
+
+```sql  
+    SELECT
+      	customer_id,
+        count(distinct order_date) as days_count
+    FROM dannys_diner.sales
+    group by 1
+    ;
+```
+
+| customer_id | days_count |
+| ----------- | ---------- |
+| A           | 4          |
+| B           | 6          |
+| C           | 2          |
