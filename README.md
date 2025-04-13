@@ -73,7 +73,7 @@ A case study obtained from 8 Week SQL Challenge, link: https://8weeksqlchallenge
 | 3          | ramen        | 12    |
 </details>
 
-⚒️ Main Process
+## ⚒️ Main Process
 
 **1. What is the total amount each customer spent at the restaurant?**
 
@@ -225,7 +225,7 @@ order by 1
 
 * Joins sales and menu to get both price and product_name.
 * For each sale, calculates:
-* price * 10 * 2 if it's sushi
+* price * 20  if it's sushi
 * price * 10 for all other items
 * Sums these to get total points per customer.
 
@@ -254,3 +254,61 @@ order by 1
 | C           | 360 |
 
 ---
+
+**10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
+
+* Checks order date range to apply the first-week bonus.
+* Applies sushi multiplier, first-week multiplier, or both.
+* Sums all points earned up to January 31.
+
+```sql
+SELECT 
+    s.customer_id,
+    SUM(
+        CASE
+            -- First week AND sushi: 4x points
+            WHEN s.order_date BETWEEN mbr.join_date AND mbr.join_date + INTERVAL '6 days'
+                 AND mn.product_name = 'sushi'
+            THEN mn.price * 10 * 4
+
+            -- First week, not sushi: 2x points
+            WHEN s.order_date BETWEEN mbr.join_date AND mbr.join_date + INTERVAL '6 days'
+            THEN mn.price * 10 * 2
+
+            -- After first week, sushi: 2x points
+            WHEN mn.product_name = 'sushi'
+            THEN mn.price * 10 * 2
+
+            -- Everything else: normal points
+            ELSE mn.price * 10
+        END
+    ) AS total_points
+FROM dannys_diner.sales s
+JOIN dannys_diner.menu mn ON s.product_id = mn.product_id
+JOIN dannys_diner.members mbr ON s.customer_id = mbr.customer_id
+  AND s.order_date <= '2021-01-31'
+GROUP BY s.customer_id
+ORDER BY s.customer_id;
+```
+
+| customer_id | total_points |
+| ----------- | ------------ |
+| A           | 1370         |
+| B           | 1020         |
+
+---
+
+## 🍽️ How It Helps Danny’s Diner
+
+* Improve the loyalty program with targeted bonuses and smarter rewards.
+* Personalize promotions based on customer preferences.
+* Boost sales by focusing on high-performing items like sushi.
+* Measure program success by tracking points vs. revenue.
+
+## ✅ What We Learned
+
+* Customers spend more and try new items after joining the loyalty program.
+* The first-week double points and sushi bonus effectively boost engagement.
+* We identified top customers, popular items, and spending patterns.
+
+
