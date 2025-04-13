@@ -9,6 +9,14 @@ Date: 2025-04 -06
 
 Tools Used: Postgre SQL
 
+## 📑 Table of Contents
+
+- [📌 Background & Overview](#-background--overview)
+- [📂 Dataset Description & Data Structure](#-dataset-description--data-structure)
+- [⚒️ Main Process](#️-main-process)
+- [✅ What We Learned](#-what-we-learned)
+- [🍽️ How It Helps Danny’s Diner](#-how-it-helps-dannys-diner)
+
 ## 📌 Background & Overview
 
 ### 📖 Objectives
