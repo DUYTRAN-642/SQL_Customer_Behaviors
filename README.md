@@ -223,6 +223,12 @@ order by 1
 
 **6. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 
+* Joins sales and menu to get both price and product_name.
+* For each sale, calculates:
+* price * 10 * 2 if it's sushi
+* price * 10 for all other items
+* Sums these to get total points per customer.
+
 ```sql
 with raw_data as(
 select
