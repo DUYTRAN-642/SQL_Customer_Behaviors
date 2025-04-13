@@ -117,10 +117,12 @@ The result can be queried from table of `sales`. Because one customer can have m
 
 **3. What was the first item from the menu purchased by each customer?**
 
+This query had `RANKING` syntax to identify the earliest item purchased, but there were customers bought more than 1 item at first date, so the syntax of `STRING_AGG` in Postgre SQL was used to set the aggregate the outputs.
+
 ```sql
 with raw_table as(
 SELECT
-  	*
+     *
     ,rank() over(partition by t1.customer_id order by t1.order_date) as ranking
 from dannys_diner.sales as t1
 left join dannys_diner.menu as t2
@@ -128,7 +130,7 @@ on t1.product_id = t2.product_id
   )
   
 select 
-	customer_id
+     customer_id
     ,string_agg(product_name,', ') as first_items
 from raw_table
 where ranking = 1
