@@ -114,3 +114,33 @@ The result can be queried from table of `sales`. Because one customer can have m
 | A           | 4          |
 | B           | 6          |
 | C           | 2          |
+
+**3. What was the first item from the menu purchased by each customer?**
+
+```sql
+with raw_table as(
+SELECT
+  	*
+    ,rank() over(partition by t1.customer_id order by t1.order_date) as ranking
+from dannys_diner.sales as t1
+left join dannys_diner.menu as t2
+on t1.product_id = t2.product_id
+  )
+  
+select 
+	customer_id
+    ,string_agg(product_name,', ') as first_items
+from raw_table
+where ranking = 1
+group by 1
+order by 1
+```
+
+| customer_id | first_items  |
+| ----------- | ------------ |
+| A           | curry, sushi |
+| B           | curry        |
+| C           | ramen, ramen |
+
+---
+
