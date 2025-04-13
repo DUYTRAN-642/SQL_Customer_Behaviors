@@ -146,3 +146,43 @@ order by 1
 
 ---
 
+**Which item was purchased first by the customer after they became a member?**
+
+```sql
+WITH sales_after_join AS (
+    SELECT 
+        s.customer_id,
+        s.product_id,
+        s.order_date
+    FROM dannys_diner.sales s
+    JOIN dannys_diner.members m 
+        ON s.customer_id = m.customer_id
+    WHERE s.order_date > m.join_date
+),
+first_order_per_customer AS (
+    SELECT 
+        customer_id,
+        MIN(order_date) AS first_order_date
+    FROM sales_after_join
+    GROUP BY customer_id
+)
+SELECT 
+    saj.customer_id,
+    STRING_AGG(m.product_name, ', ') AS first_items_after_join,
+    saj.order_date
+FROM sales_after_join saj
+JOIN first_order_per_customer fop 
+    ON saj.customer_id = fop.customer_id 
+   AND saj.order_date = fop.first_order_date
+JOIN dannys_diner.menu m 
+    ON saj.product_id = m.product_id
+GROUP BY saj.customer_id, saj.order_date
+ORDER BY saj.customer_id;
+```
+
+| customer_id | first_items_after_join | order_date |
+| ----------- | ---------------------- | ---------- |
+| A           | ramen                  | 2021-01-10 |
+| B           | sushi                  | 2021-01-11 |
+
+---
