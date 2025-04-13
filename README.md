@@ -148,6 +148,11 @@ order by 1
 
 **Which item was purchased first by the customer after they became a member?**
 
+* Filters sales to after the customer’s join_date.
+* Finds the first order_date after membership.
+* Gets all products bought on that date, and joins with menu to get product_name.
+* Uses STRING_AGG to handle multiple items bought on the same date.
+
 ```sql
 WITH sales_after_join AS (
     SELECT 
