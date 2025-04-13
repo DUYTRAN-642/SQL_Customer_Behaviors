@@ -146,7 +146,7 @@ order by 1
 
 ---
 
-**Which item was purchased first by the customer after they became a member?**
+**4. Which item was purchased first by the customer after they became a member?**
 
 * Filters sales to after the customer’s join_date.
 * Finds the first order_date after membership.
@@ -189,5 +189,34 @@ ORDER BY saj.customer_id;
 | ----------- | ---------------------- | ---------- |
 | A           | ramen                  | 2021-01-10 |
 | B           | sushi                  | 2021-01-11 |
+
+---
+
+**5. What is the total items and amount spent for each member before they became a member?**
+
+* Filters sales to only those before the member’s join_date.
+* Counts the number of product_id entries (i.e. total items bought).
+* Sums the prices from the menu table to get total amount spent.
+* Groups the results per customer.
+
+```sql
+select
+  t1.customer_id
+  ,count(t1.product_id) as total_items
+  ,sum(t3.price) as total_amount
+from dannys_diner.sales as t1
+left join dannys_diner.members as t2
+   on t1.customer_id = t2.customer_id
+left join dannys_diner.menu as t3
+   on t1.product_id = t3.product_id
+where t1.order_date < t2.join_date
+group by 1
+order by 1
+```
+
+| customer_id | total_items | total_amount |
+| ----------- | ----------- | ------------ |
+| A           | 2           | 25           |
+| B           | 3           | 40           |
 
 ---
